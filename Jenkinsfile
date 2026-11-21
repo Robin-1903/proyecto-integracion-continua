@@ -40,22 +40,12 @@ pipeline {
                     docker run -d --name smoke_app_${BUILD_NUMBER} ${IMAGE_NAME}:${BUILD_NUMBER}
                     sleep 15
                     docker logs smoke_app_${BUILD_NUMBER}
-                    docker exec smoke_app_${BUILD_NUMBER} python -c "
-import urllib.request, sys
-for port in [5000, 8000]:
-    try:
-        res = urllib.request.urlopen(f'http://127.0.0.1:{port}/').read().decode()
-        print('RESPUESTA_OK:', res)
-        sys.exit(0)
-    except Exception:
-        pass
-sys.exit(1)
-"
+                    docker exec smoke_app_${BUILD_NUMBER} python -c "import urllib.request; print(urllib.request.urlopen('http://127.0.0.1:5000/').read().decode())"
                 '''
             }
             post {
                 always {
-                    sh "docker rm -f smoke_app_${BUILD_NUMBER} || true"
+                    sh "docker rm -f smoke_app_\${BUILD_NUMBER} || true"
                 }
             }
         }
