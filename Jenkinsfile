@@ -38,7 +38,7 @@ pipeline {
                 sh """
                     docker rm -f smoke_app_${BUILD_NUMBER} || true
                     docker run -d --name smoke_app_${BUILD_NUMBER} ${IMAGE_NAME}:${BUILD_NUMBER}
-                    sleep 12
+                    sleep 20
                     docker exec smoke_app_${BUILD_NUMBER} python -c "import urllib.request; resp = urllib.request.urlopen('http://localhost:5000/').read().decode(); print(resp); assert 'OK' in resp"
                 """
             }
