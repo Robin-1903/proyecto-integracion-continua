@@ -52,7 +52,7 @@ def init_db():
 @app.route('/', methods=['GET'])
 def health_check():
     return jsonify({
-        "estado": "ERROR",
+        "estado": "OK",
         "mensaje": "Aplicación Python activa en Docker",
         "servicio_destino": DB_HOST
     }), 200
