@@ -1,0 +1,12 @@
+jenkins:
+  systemMessage: "Servidor CI - Proyecto Integración Continua (Politécnico Grancolombiano)"
+  numExecutors: 2
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "estudiante"
+          password: "${JENKINS_ADMIN_PASSWORD:-poli2026}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false

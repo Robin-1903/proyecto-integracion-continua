@@ -1,0 +1,29 @@
+name: CI Pipeline - Integracion Continua
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar archivo de variables de entorno
+        run: cp .env.example .env
+
+      - name: Construir la imagen de la aplicación (Contenedor 1)
+        run: docker build -t python-app-test ./app
+
+      - name: Validar orquestación con Docker Compose
+        run: |
+          docker compose config
+          docker compose up -d --build
+          sleep 10
+          docker compose ps
+          docker compose down
